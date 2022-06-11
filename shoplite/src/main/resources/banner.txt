@@ -1,0 +1,8 @@
+${AnsiColor.BRIGHT_GREEN}    ____   __               ${AnsiColor.BLUE}      __    _   __
+${AnsiColor.BRIGHT_GREEN}   / __/  / /  ___    ___   ${AnsiColor.BLUE}     / /   (_) / /_ ___
+${AnsiColor.BRIGHT_GREEN}  _\ \   / _ \/ _ \  / _ \  ${AnsiColor.BLUE}    / /__ / / / __// -_)
+${AnsiColor.BRIGHT_GREEN} /___/  /_//_/\___/ / .__/  ${AnsiColor.BLUE}   /____//_/  \__/ \__/
+${AnsiColor.BRIGHT_GREEN}                   /_/      ${AnsiColor.BLUE}
+
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}
