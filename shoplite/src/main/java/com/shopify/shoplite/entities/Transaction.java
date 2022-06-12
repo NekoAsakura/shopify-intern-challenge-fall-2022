@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Getter
@@ -17,6 +18,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "transaction")
 public class Transaction {
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
     @Id
     @GeneratedValue
     private Long id;
@@ -32,7 +34,7 @@ public class Transaction {
     @NotNull(message = "The transaction need a quantity!")
     private int quantity;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime createdAt;
 
     @NotEmpty(message = "The transaction need a status!")
@@ -50,4 +52,5 @@ public class Transaction {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

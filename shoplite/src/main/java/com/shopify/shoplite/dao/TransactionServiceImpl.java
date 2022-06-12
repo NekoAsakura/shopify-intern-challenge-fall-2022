@@ -4,7 +4,6 @@ import com.shopify.shoplite.entities.Transaction;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -23,7 +22,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Iterable<Transaction> findAll() {
-        return transactionRepository.findAll();
+        final Sort ASC_DATE = Sort.by("createdAt").descending();
+        return transactionRepository.findAll(ASC_DATE);
     }
 
     @Override
@@ -35,7 +35,6 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteById(Long id) {
         transactionRepository.deleteById(id);
     }
-
 
     @Override
     public Transaction save(Transaction transaction) {
@@ -54,5 +53,4 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return recentTransactions;
     }
-
 }

@@ -60,14 +60,14 @@ public class InitialDataLoader {
         transaction1.setCustomer(customer1);
         transaction1.setInventory(inventory1);
         transaction1.setQuantity(5);
-        transaction1.setCreatedAt(LocalDateTime.now());
-        transaction1.setStatus("Pending");
+        transaction1.setCreatedAt(LocalDateTime.now().minusDays(15));
+        transaction1.setStatus("Delivered");
         Transaction transaction2 = new Transaction();
         transaction2.setCustomer(customer1);
         transaction2.setInventory(inventory2);
         transaction2.setQuantity(10);
-        transaction2.setCreatedAt(LocalDateTime.now().minusDays(5));
-        transaction2.setStatus("Delivered");
+        transaction2.setCreatedAt(LocalDateTime.now());
+        transaction2.setStatus("Pending");
 
         return (args) -> {
             if ((customerService.count() > 0) && (inventoryService.count() > 0) && (transactionService.count() > 0)) {
