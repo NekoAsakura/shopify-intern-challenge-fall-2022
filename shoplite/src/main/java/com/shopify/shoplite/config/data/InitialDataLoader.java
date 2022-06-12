@@ -51,7 +51,7 @@ public class InitialDataLoader {
         Inventory inventory2 = new Inventory();
         inventory2.setName("iPhone 13 Pro Max");
         inventory2.setDescription("""
-                6.7\" Super Retina XDR display with ProMotion
+                6.7" Super Retina XDR display with ProMotion
                 Dolby Vision HDR video recording up to 4K at 60 fps
                 A15 Bionic chip with New 16-core Neural Engine
                 Up to 28 hours video playback""");
