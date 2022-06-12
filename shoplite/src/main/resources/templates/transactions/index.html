@@ -14,7 +14,7 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Item</th>
             <th>Customer</th>
             <th>Quantity</th>
             <th>Ordered Time</th>
@@ -24,8 +24,8 @@
         <tbody>
         <tr th:each="txn : ${txns}">
             <td><a th:href="@{/transactions/{id}(id=${txn.id})}" th:text="${txn.id}"></a></td>
-            <td th:href="@{/inventory/{id}(id=${txn.inventory.id})}" th:text="${txn.inventory.name}"></td>
-            <td th:text="${txn.customer.name}"></td>
+            <td><a th:href="@{/inventory/{id}(id=${txn.inventory.id})}" th:text="${txn.inventory.name}"></a></td>
+            <td><a th:href="@{/customers/{id}(id=${txn.customer.id})}" th:text="${txn.customer.name}"></a></td>
             <td th:text="${txn.quantity}"></td>
             <td th:text="${{txn.createdAt}}"></td>
             <td th:text="${txn.status}"></td>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction Edit</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Transaction Edit</h1>
+    <form th:action="@{/transactions/edit/{id}(id=${txn.id})}" th:object="${transaction}" method="post">
+        <div class="form-group">
+            <label for="inventory">Inventory Name</label>
+            <select class="form-control" name="inventory" id="inventory">
+                <option th:each="inv : ${inventory}" th:value="${inv.id}"
+                        th:text="${inv.name + ' - ' + inv.quantity + ' left'}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="customer">Customer</label>
+            <select class="form-control" name="customer" id="customer">
+                <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity" th:value="${txn.quantity}">
+        </div>
+        <div class="form-group">
+            <label for="createdAt">Ordered Time</label>
+            <input type="datetime-local" class="form-control" name="createdAt"  id="createdAt" placeholder="Datetime">
+        </div>
+        <div class="form-group">
+            <label for="status">Description</label>
+            <input type="text" class="form-control" name="status" id="status" placeholder="Status" th:value="${txn.status}">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+    </form>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var time = [[${txn.createdAt}]]
+        document.getElementById('createdAt').value = time.substring(0, 16);
+        /*]]>*/
+    </script>
+</div>
+
+</body>
+</html>

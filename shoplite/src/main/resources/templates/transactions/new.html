@@ -13,21 +13,23 @@
     <form action="#" th:action="@{/transactions}" th:object="${txn}" method="post">
         <div class="form-group" th:classappend="${#fields.hasErrors('inventory')}? has-error">
             <label for="inventory">Inventory Name</label>
-            <select class="form-control" name="inventory" id="inventory" >
-                <option th:each="inv : ${inventory}" th:value="${inv.id}" th:text="${inv.name}"></option>
+            <select class="form-control" name="inventory" id="inventory">
+                <option th:each="inv : ${inventory}" th:value="${inv.id}"
+                        th:text="${inv.name + ' - ' + inv.quantity + ' left'}"></option>
             </select>
         </div>
         <br>
         <div class="form-group" th:classappend="${#fields.hasErrors('customer')}? has-error">
             <label for="customer">Customer</label>
-            <select class="form-control" name="customer" id="customer" >
+            <select class="form-control" name="customer" id="customer">
                 <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
             </select>
         </div>
         <br>
         <div class="form-group" th:classappend="${#fields.hasErrors('quantity')}? has-error">
             <label for="quantity">Quantity</label>
-            <input class="form-control" type="input" name="quantity" id="quantity" placeholder="Quantity" autofocus="autofocus" />
+            <input class="form-control" type="input" name="quantity" id="quantity" placeholder="Quantity"
+                   autofocus="autofocus"/>
         </div>
         <br>
         <button class="btn btn-primary" type="submit">Submit</button>

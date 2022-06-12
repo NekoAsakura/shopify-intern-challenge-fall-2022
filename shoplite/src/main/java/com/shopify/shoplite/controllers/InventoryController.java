@@ -59,4 +59,30 @@ public class InventoryController {
         inventoryRepository.save(inventory);
         return "redirect:/inventory";
     }
+
+    @GetMapping("/edit/{id}")
+    public String editInventory(@PathVariable("id") long id, Model model) {
+        Inventory inventory = inventoryRepository.findById(id).orElse(null);
+        model.addAttribute("inventory", inventory);
+        return "inventory/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateInventory(@RequestBody @Valid @ModelAttribute Inventory inventory, BindingResult errors, Model model, RedirectAttributes redirectAttrs) {
+        if (errors.hasErrors()) {
+            model.addAttribute("inventory", inventory);
+            return "inventory/edit";
+        }
+        if (inventory.getName() == null || inventory.getName().isEmpty()) {
+            redirectAttrs.addFlashAttribute("error", "Inventory name is required");
+            return "redirect:/inventory";
+        }
+        if (inventory.getQuantity() <= 0) {
+            redirectAttrs.addFlashAttribute("error", "Quantity must be greater than 0");
+            return "redirect:/inventory";
+        }
+        redirectAttrs.addFlashAttribute("ok_message", "Inventory updated.");
+        inventoryRepository.save(inventory);
+        return "redirect:/inventory";
+    }
 }

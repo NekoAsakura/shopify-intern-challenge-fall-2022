@@ -58,4 +58,31 @@ public class CustomersController {
         customerService.save(customer);
         return "redirect:/customers";
     }
+
+    @GetMapping("/edit/{id}")
+    public String editCustomer(@PathVariable("id") long id, Model model) {
+        Customer customer = customerService.findById(id);
+        model.addAttribute("customer", customer);
+        return "customers/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateCustomer(@PathVariable("id") long id, @RequestBody @Valid @ModelAttribute Customer customer, Model model, BindingResult errors,
+                                 RedirectAttributes redirectAttrs) {
+        if (errors.hasErrors()) {
+            model.addAttribute("customer", customer);
+            return "customers/edit";
+        }
+        if (customer.getName() == null || customer.getName().isEmpty()) {
+            redirectAttrs.addFlashAttribute("error", "Customer name is required");
+            return "redirect:/customers";
+        }
+        if (customer.getAddress() == null || customer.getAddress().isEmpty()) {
+            redirectAttrs.addFlashAttribute("error", "Customer address is required");
+            return "redirect:/customers";
+        }
+        redirectAttrs.addFlashAttribute("ok_message", "Customer has been updated.");
+        customerService.save(customer);
+        return "redirect:/customers";
+    }
 }

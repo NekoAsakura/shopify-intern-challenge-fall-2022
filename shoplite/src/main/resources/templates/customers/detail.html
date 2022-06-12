@@ -23,6 +23,10 @@
         <label for="address">Address</label>
         <input type="text" class="form-control" id="address" placeholder="Address" th:value="${customer.address}" readonly>
     </div>
+    <br>
+    <form th:action="@{/customers/edit/{id}(id=${customer.id})}" th:method="get">
+        <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+    </form>
 </div>
 </body>
 </html>
