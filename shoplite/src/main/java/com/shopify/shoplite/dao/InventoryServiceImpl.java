@@ -3,6 +3,8 @@ package com.shopify.shoplite.dao;
 import com.shopify.shoplite.entities.Inventory;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class InventoryServiceImpl implements InventoryService {
 
@@ -15,6 +17,11 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public long count() {
         return inventoryRepository.count();
+    }
+
+    @Override
+    public Optional<Inventory> findById(long id) {
+        return inventoryRepository.findById(id);
     }
 
     @Override

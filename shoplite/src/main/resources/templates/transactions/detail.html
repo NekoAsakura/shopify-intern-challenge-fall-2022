@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <title>Transaction Detail</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.1.3/morph/bootstrap.min.css"
+          integrity="sha512-P74ekVMF6EUCnLTSVOkPjp3DWmXYmTHmr+Q3dMnVqH8e1O2z2vYtSEHEprV2Xsc7fT3wrLp7bUoI6nR/fwU7Gg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Transaction Detail</h1>
+    <div class="form-group">
+        <label for="name">Inventory Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" th:value="${txn.inventory.name}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="customer">Customer Name</label>
+        <input type="text" class="form-control" id="customer" placeholder="Customer Name" th:value="${txn.customer.name}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="text" class="form-control" id="quantity" placeholder="Quantity" th:value="${txn.quantity}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="datetime">Ordered Time</label>
+        <input type="datetime-local" class="form-control" id="datetime" placeholder="Datetime" th:value="${#strings.arraySplit(#temporals.formatISO(txn.createdAt), '.')[0]}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="status">Description</label>
+        <input type="text" class="form-control" id="status" placeholder="Status" th:value="${txn.status}" readonly>
+    </div>
+</div>
+</body>
+</html>
