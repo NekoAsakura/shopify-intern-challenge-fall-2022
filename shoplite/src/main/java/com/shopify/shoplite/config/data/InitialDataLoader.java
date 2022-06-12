@@ -37,18 +37,37 @@ public class InitialDataLoader {
     @Bean
     CommandLineRunner initDatabase() {
         Customer customer1 = new Customer();
-        customer1.setName("John Smith");
+        customer1.setName("Neko Asakura");
         customer1.setAddress("The University of Manchester, Oxford Rd, Manchester M13 9PL");
         Inventory inventory1 = new Inventory();
-        inventory1.setName("Laptop");
-        inventory1.setDescription("MacBook Pro M1 Max");
+        inventory1.setName("MacBook Air 13.3\" (2020)");
+        inventory1.setDescription("""
+                macOS 11.0 Big Sur
+                Apple M1 chip
+                RAM: 8 GB / Storage: 256 GB SSD
+                Retina display
+                Battery life: Up to 18 hours""");
         inventory1.setQuantity(10);
+        Inventory inventory2 = new Inventory();
+        inventory2.setName("iPhone 13 Pro Max");
+        inventory2.setDescription("""
+                6.7\" Super Retina XDR display with ProMotion
+                Dolby Vision HDR video recording up to 4K at 60 fps
+                A15 Bionic chip with New 16-core Neural Engine
+                Up to 28 hours video playback""");
+        inventory2.setQuantity(50);
         Transaction transaction1 = new Transaction();
         transaction1.setCustomer(customer1);
         transaction1.setInventory(inventory1);
         transaction1.setQuantity(5);
         transaction1.setCreatedAt(LocalDateTime.now());
         transaction1.setStatus("Pending");
+        Transaction transaction2 = new Transaction();
+        transaction2.setCustomer(customer1);
+        transaction2.setInventory(inventory2);
+        transaction2.setQuantity(10);
+        transaction2.setCreatedAt(LocalDateTime.now().minusDays(5));
+        transaction2.setStatus("Delivered");
 
         return (args) -> {
             if ((customerService.count() > 0) && (inventoryService.count() > 0) && (transactionService.count() > 0)) {
@@ -57,6 +76,8 @@ public class InitialDataLoader {
                 log.info("Initializing database with:" + customerService.save(customer1));
                 log.info("Initializing database with:" + inventoryService.save(inventory1));
                 log.info("Initializing database with:" + transactionService.save(transaction1));
+                log.info("Initializing database with:" + inventoryService.save(inventory2));
+                log.info("Initializing database with:" + transactionService.save(transaction2));
             }
         };
     }
