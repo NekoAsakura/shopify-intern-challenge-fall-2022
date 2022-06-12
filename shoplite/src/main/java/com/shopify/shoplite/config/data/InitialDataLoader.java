@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Configuration
@@ -41,20 +40,11 @@ public class InitialDataLoader {
         customer1.setAddress("The University of Manchester, Oxford Rd, Manchester M13 9PL");
         Inventory inventory1 = new Inventory();
         inventory1.setName("MacBook Air 13.3\" (2020)");
-        inventory1.setDescription("""
-                macOS 11.0 Big Sur
-                Apple M1 chip
-                RAM: 8 GB / Storage: 256 GB SSD
-                Retina display
-                Battery life: Up to 18 hours""");
+        inventory1.setDescription("macOS 11.0 Big Sur\nApple M1 chip\nRAM: 8 GB / Storage: 256 GB SSD\nRetina display\nBattery life: Up to 18 hours");
         inventory1.setQuantity(10);
         Inventory inventory2 = new Inventory();
         inventory2.setName("iPhone 13 Pro Max");
-        inventory2.setDescription("""
-                6.7" Super Retina XDR display with ProMotion
-                Dolby Vision HDR video recording up to 4K at 60 fps
-                A15 Bionic chip with New 16-core Neural Engine
-                Up to 28 hours video playback""");
+        inventory2.setDescription("6.7\" Super Retina XDR display with ProMotion\nDolby Vision HDR video recording up to 4K at 60 fps\nA15 Bionic chip with New 16-core Neural Engine\n Up to 28 hours video playback");
         inventory2.setQuantity(50);
         Transaction transaction1 = new Transaction();
         transaction1.setCustomer(customer1);
