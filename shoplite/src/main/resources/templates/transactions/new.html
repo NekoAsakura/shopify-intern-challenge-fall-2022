@@ -12,7 +12,7 @@
     <h1>Create New Transaction</h1>
     <form action="#" th:action="@{/transactions}" th:object="${txn}" method="post">
         <div class="form-group" th:classappend="${#fields.hasErrors('inventory')}? has-error">
-            <label for="inventory">Inventory Name</label>
+            <label for="inventory">Item Name</label>
             <select class="form-control" name="inventory" id="inventory">
                 <option th:each="inv : ${inventory}" th:value="${inv.id}"
                         th:text="${inv.name + ' - ' + inv.quantity + ' left'}"></option>

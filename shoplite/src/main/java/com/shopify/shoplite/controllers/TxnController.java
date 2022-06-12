@@ -5,8 +5,6 @@ import com.shopify.shoplite.dao.InventoryService;
 import com.shopify.shoplite.dao.TransactionService;
 import com.shopify.shoplite.entities.Inventory;
 import com.shopify.shoplite.entities.Transaction;
-import com.shopify.shoplite.exceptions.TxnNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 @Controller
@@ -97,17 +93,36 @@ public class TxnController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateTransaction(@Valid @ModelAttribute Transaction transaction, BindingResult errors,
+    public String updateTransaction(@Valid @ModelAttribute Transaction txn, BindingResult errors,
                                     Model model, RedirectAttributes redirectAttrs){
         if (errors.hasErrors()) {
-            model.addAttribute("txn", transaction);
+            model.addAttribute("txn", txn);
             model.addAttribute("inventory", inventoryService.findAll());
             model.addAttribute("customers", customerService.findAll());
             return "transactions/edit";
         }
 
-        transactionService.save(transaction);
-        redirectAttrs.addFlashAttribute("ok_message", "Transaction updated.");
-        return "redirect:/transactions/" + transaction.getId();
+        if (!txn.getStatus().equals(transactionService.findById(txn.getId()).getStatus())) {
+            redirectAttrs.addFlashAttribute("error", "Transaction status cannot be manually changed.");
+            model.addAttribute("txn", txn);
+            model.addAttribute("inventory", inventoryService.findAll());
+            model.addAttribute("customers", customerService.findAll());
+            return "transactions/edit";
+        }
+
+        Inventory stock = inventoryService.findById(txn.getInventory().getId()).orElse(null);
+        assert stock != null;
+        Integer originalQuantity = transactionService.findById(txn.getId()).getQuantity();
+        if (txn.getQuantity() - originalQuantity > stock.getQuantity()) {
+            txn.setStatus("Pending");
+            redirectAttrs.addFlashAttribute("error", "Not enough inventory! The transaction was pending.");
+            stock.setQuantity(stock.getQuantity() + originalQuantity);
+        } else {
+            txn.setStatus("Processing");
+            redirectAttrs.addFlashAttribute("ok_message", "Transaction updated.");
+            stock.setQuantity(stock.getQuantity() + originalQuantity - txn.getQuantity());
+        }
+        transactionService.save(txn);
+        return "redirect:/transactions/" + txn.getId();
     }
 }

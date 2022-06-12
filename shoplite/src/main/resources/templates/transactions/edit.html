@@ -12,10 +12,10 @@
     <h1>Transaction Edit</h1>
     <form th:action="@{/transactions/edit/{id}(id=${txn.id})}" th:object="${transaction}" method="post">
         <div class="form-group">
-            <label for="inventory">Inventory Name</label>
+            <label for="inventory">Item Name</label>
             <select class="form-control" name="inventory" id="inventory">
-                <option th:each="inv : ${inventory}" th:value="${inv.id}"
-                        th:text="${inv.name + ' - ' + inv.quantity + ' left'}"></option>
+                <option th:value="${txn.inventory.id}"
+                        th:text="${txn.inventory.name + ' - ' + txn.inventory.quantity + ' left'}"></option>
             </select>
         </div>
         <div class="form-group">
@@ -26,15 +26,17 @@
         </div>
         <div class="form-group">
             <label for="quantity">Quantity</label>
-            <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity" th:value="${txn.quantity}">
+            <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity"
+                   th:value="${txn.quantity}">
         </div>
         <div class="form-group">
             <label for="createdAt">Ordered Time</label>
-            <input type="datetime-local" class="form-control" name="createdAt"  id="createdAt" placeholder="Datetime">
+            <input type="datetime-local" class="form-control" name="createdAt" id="createdAt" placeholder="Datetime">
         </div>
         <div class="form-group">
-            <label for="status">Description</label>
-            <input type="text" class="form-control" name="status" id="status" placeholder="Status" th:value="${txn.status}">
+            <label for="status">Status</label>
+            <input type="text" class="form-control" name="status" id="status" placeholder="Status"
+                   th:value="${txn.status}" readonly>
         </div>
         <br>
         <button type="submit" class="btn btn-primary btn-sm">Update</button>
