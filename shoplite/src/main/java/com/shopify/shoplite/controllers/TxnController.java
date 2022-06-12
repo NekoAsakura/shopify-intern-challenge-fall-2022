@@ -112,7 +112,7 @@ public class TxnController {
 
         Inventory stock = inventoryService.findById(txn.getInventory().getId()).orElse(null);
         assert stock != null;
-        Integer originalQuantity = transactionService.findById(txn.getId()).getQuantity();
+        int originalQuantity = transactionService.findById(txn.getId()).getQuantity();
         if (txn.getQuantity() - originalQuantity > stock.getQuantity()) {
             txn.setStatus("Pending");
             redirectAttrs.addFlashAttribute("error", "Not enough inventory! The transaction was pending.");
@@ -125,4 +125,21 @@ public class TxnController {
         transactionService.save(txn);
         return "redirect:/transactions/" + txn.getId();
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteTransaction(@PathVariable("id") long id, RedirectAttributes redirectAttrs) {
+        try {
+            int originalQuantity = transactionService.findById(id).getQuantity();
+            Inventory stock = inventoryService.findById(transactionService.findById(id).getInventory().getId()).orElse(null);
+            transactionService.deleteById(id);
+            stock.setQuantity(stock.getQuantity() + originalQuantity);
+            inventoryService.save(stock);
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("error", "Failed to delete transaction.");
+            return "redirect:/transactions";
+        }
+        redirectAttrs.addFlashAttribute("ok_message", "Transaction deleted.");
+        return "redirect:/transactions";
+    }
+
 }

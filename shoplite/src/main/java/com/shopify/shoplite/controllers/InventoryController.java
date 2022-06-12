@@ -1,7 +1,9 @@
 package com.shopify.shoplite.controllers;
 
 import com.shopify.shoplite.dao.InventoryRepository;
+import com.shopify.shoplite.dao.TransactionRepository;
 import com.shopify.shoplite.entities.Inventory;
+import com.shopify.shoplite.entities.Transaction;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +16,15 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/inventory")
 public class InventoryController {
-    private final InventoryRepository inventoryRepository;
+    final
+    InventoryRepository inventoryRepository;
 
-    public InventoryController(InventoryRepository inventoryRepository) {
+    final
+    TransactionRepository transactionRepository;
+
+    public InventoryController(InventoryRepository inventoryRepository, TransactionRepository transactionRepository) {
         this.inventoryRepository = inventoryRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     @GetMapping
@@ -83,6 +90,18 @@ public class InventoryController {
         }
         redirectAttrs.addFlashAttribute("ok_message", "Inventory updated.");
         inventoryRepository.save(inventory);
+        return "redirect:/inventory";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteInventory(@PathVariable("id") long id, RedirectAttributes redirectAttrs) {
+        for (Transaction txn : transactionRepository.findAll()) {
+            if (txn.getInventory().getId() == id) {
+                transactionRepository.delete(txn);
+            }
+        }
+        inventoryRepository.deleteById(id);
+        redirectAttrs.addFlashAttribute("ok_message", "Inventory deleted.");
         return "redirect:/inventory";
     }
 }

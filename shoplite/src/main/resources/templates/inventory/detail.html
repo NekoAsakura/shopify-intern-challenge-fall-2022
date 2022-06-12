@@ -26,6 +26,10 @@
     <form th:action="@{/inventory/edit/{id}(id=${inventory.id})}" th:method="get">
         <button type="submit" class="btn btn-primary btn-sm">Edit</button>
     </form>
+    <br>
+    <form th:action="${(#mvc.url('IC#deleteInventory').arg(0, inventory.id)).build()}" th:method="delete">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    </form>
 </div>
 </body>
 </html>
