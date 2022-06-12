@@ -20,6 +20,11 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    public Iterable<Inventory> findAll() {
+        return inventoryRepository.findAll();
+    }
+
+    @Override
     public Optional<Inventory> findById(long id) {
         return inventoryRepository.findById(id);
     }

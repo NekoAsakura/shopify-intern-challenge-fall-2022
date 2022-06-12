@@ -48,7 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
         Iterable<Transaction> transactions = transactionRepository.findAll(ASC_DATE);
         ArrayList<Transaction> recentTransactions = new ArrayList<>();
         for (Transaction transaction : transactions) {
-            if (recentTransactions.size() <= 5 && !transaction.getStatus().equals("Cancelled") && !transaction.getStatus().equals("Delivered")) {
+            if (recentTransactions.size() < 5 && !transaction.getStatus().equals("Cancelled")) {
                 recentTransactions.add(transaction);
             }
         }

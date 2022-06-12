@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Inventory</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Add Inventory</h1>
+    <form action="#" th:action="@{/customers}" th:object="${customer}" method="post">
+        <div class="form-group">
+            <label for="name">Customer Name</label>
+            <input class="form-control" type="input" name="name" id="name" placeholder="Customer"
+                   autofocus="autofocus"/>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input class="form-control" type="input" name="address" id="address" placeholder="Address"
+                   autofocus="autofocus"/>
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <a class="btn btn-warning" role="button" href="/customers">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

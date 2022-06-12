@@ -2,13 +2,14 @@ package com.shopify.shoplite.controllers;
 
 import com.shopify.shoplite.dao.InventoryRepository;
 import com.shopify.shoplite.entities.Inventory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/inventory")
@@ -28,8 +29,34 @@ public class InventoryController {
     @GetMapping("/{id}")
     public String getInventory(@PathVariable("id") long id, Model model) {
         Inventory inventory = inventoryRepository.findById(id).orElse(null);
-        model.addAttribute("inv", inventory);
+        model.addAttribute("inventory", inventory);
         return "inventory/detail";
     }
 
+    @GetMapping("/new")
+    public String newInventory(Model model) {
+        if (!model.containsAttribute("inventory")) {
+            model.addAttribute("inventory", new Inventory());
+        }
+        return "inventory/new";
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String createInventory(@RequestBody @Valid @ModelAttribute Inventory inventory, BindingResult errors, Model model, RedirectAttributes redirectAttrs) {
+        if (errors.hasErrors()) {
+            model.addAttribute("inventory", inventory);
+            return "inventory/new";
+        }
+        if (inventory.getName() == null || inventory.getName().isEmpty()) {
+            redirectAttrs.addFlashAttribute("error", "Inventory name is required");
+            return "redirect:/inventory";
+        }
+        if (inventory.getQuantity() <= 0) {
+            redirectAttrs.addFlashAttribute("error", "Quantity must be greater than 0");
+            return "redirect:/inventory";
+        }
+        redirectAttrs.addFlashAttribute("ok_message", "Inventory added.");
+        inventoryRepository.save(inventory);
+        return "redirect:/inventory";
+    }
 }
