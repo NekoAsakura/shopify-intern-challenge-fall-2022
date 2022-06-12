@@ -72,6 +72,7 @@ public class TxnController {
         }
         txn.setCreatedAt(LocalDateTime.now());
         Inventory stock = inventoryService.findById(txn.getInventory().getId()).orElse(null);
+        assert stock != null;
         if (txn.getQuantity() > stock.getQuantity()) {
             txn.setStatus("Pending");
             redirectAttrs.addFlashAttribute("error", "Not enough inventory! The transaction was pending.");

@@ -20,9 +20,9 @@
         </thead>
         <tbody>
         <tr th:each="inv : ${inventory}">
-            <td><a th:href="@{/inventory/{id}(id=${inv.id})}" th:text="${inv.name}"></a></td>
-            <td th:text="${inv.quantity}"></td>
-            <td th:text="${inv.description}"></td>
+            <td class="col-3"><a th:href="@{/inventory/{id}(id=${inv.id})}" th:text="${inv.name}"></a></td>
+            <td class="col-2" th:text="${inv.quantity}"></td>
+            <td class="col" th:text="${inv.description}"></td>
         </tr>
         </tbody>
     </table>
