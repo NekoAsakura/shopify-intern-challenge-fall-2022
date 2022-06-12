@@ -19,6 +19,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Iterable<Customer> findAll() {
+        return customerRepository.findAll(Sort.by("Name"));
+    }
+
+    @Override
+    public Customer findById(long id) {
+        return customerRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public Customer save(Customer customer) {
         return customerRepository.save(customer);
     }

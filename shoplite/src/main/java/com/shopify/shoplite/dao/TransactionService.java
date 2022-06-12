@@ -4,5 +4,14 @@ import com.shopify.shoplite.entities.Transaction;
 
 public interface TransactionService {
     long count();
-    Transaction save(Transaction transaction);
+
+    public Iterable<Transaction> findAll();
+
+    public Transaction findById(Long id);
+
+    public void deleteById(Long id);
+
+    public Transaction save(Transaction transaction);
+
+    public Iterable<Transaction> findRecentTransactions();
 }
