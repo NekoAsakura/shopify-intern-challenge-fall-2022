@@ -39,4 +39,4 @@ Click [here](https://replit.com/@NekoAsakura/Shop-Lite?v=1) to run the applicati
 2. Open terminal (bash/zsh) and navigate to the directory.
 3. Run the following command:  
 ```cd shoplite; ./mvnw spring-boot:run```
-4. Visit the website in [localhost:8080](localhost:8080).
+4. Visit the website in [localhost:8080](http://localhost:8080).
