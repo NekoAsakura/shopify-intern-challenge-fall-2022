@@ -19,10 +19,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="inv : ${inventory}">
+        <tr th:each="inv : ${inventory}" th:switch="${#strings.length(inv.description)>50}">
             <td class="col-4"><a th:href="@{/inventory/{id}(id=${inv.id})}" th:text="${inv.name}"></a></td>
             <td class="col-2" th:text="${inv.quantity}"></td>
-            <td class="col" th:text="${#strings.substring(inv.description, 0, 50) + ' ... '}"></td>
+            <td th:case="${true}" class="col" th:text="${#strings.substring(inv.description, 0, 50) + ' ... '}"></td>
+            <td th:case="${false}" class="col" th:text="${inv.description}"></td>
         </tr>
         </tbody>
     </table>
